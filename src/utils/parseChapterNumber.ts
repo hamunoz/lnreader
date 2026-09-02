@@ -9,6 +9,10 @@ export const parseChapterNumber = (
     return chapterNumber;
   }
 
+  if (!chapterName) {
+    return chapterNumber ?? -1;
+  }
+
   const basic = new RegExp(/(?<=ch[^\d]*[\s]*)([0-9]+)(\.[0-9]+)?(\.?[a-z]+)?/);
   const number = new RegExp(/([0-9]+)(\.[0-9]+)?(\.?[a-z]+)?/);
   const unwantedWhiteSpace = new RegExp(/\s(?=extra|special|omake)/g);
@@ -16,7 +20,7 @@ export const parseChapterNumber = (
     /\b(?:v|ver|vol|version|volume|season|s)[^a-z]?[0-9]+/g,
   );
   let name = chapterName.toLowerCase();
-  name = name.replace(novelName.toLowerCase(), '').trim();
+  name = name.replace((novelName ?? '').toLowerCase(), '').trim();
   name = name.replace(',', '.').replace('-', '.');
   name = name.replace(unwantedWhiteSpace, '');
   name = name.replace(unwanted, '');
